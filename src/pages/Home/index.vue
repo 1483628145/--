@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import TypeNav from "@/pages/Home/TypeNav";
 import List from "@/pages/Home/List";
 import TodayRecommend from "@/pages/Home/TodayRecommend";
 import Rank from "@/pages/Home/Rank";
@@ -20,7 +19,6 @@ import Floor from "@/pages/Home/Floor";
 import Brand from "@/pages/Home/Brand";
 export default {
   components: {
-    TypeNav,
     List,
     TodayRecommend,
     Rank,
