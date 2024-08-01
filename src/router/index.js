@@ -72,6 +72,7 @@ export default new VueRouter({
       props: (route) => ({ keyword: route.params.keyword, id: route.query.id }),
       meta: {
         showFooter: true,
+        showTypeNav: false,
       },
     },
     // 重定向到首页

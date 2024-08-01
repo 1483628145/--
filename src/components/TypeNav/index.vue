@@ -1,7 +1,7 @@
 <template>
   <div class="outer">
     <div class="type-nav">
-      <div class="container">
+      <div class="container" @mouseenter="showTab" @mouseleave="removeTab">
         <h2 class="all">全部商品分类</h2>
         <nav class="nav">
           <a href="###">服装城</a>
@@ -13,59 +13,62 @@
           <a href="###">有趣</a>
           <a href="###">秒杀</a>
         </nav>
-        <div class="sort">
-          <div class="all-sort-list2" @click="goSearch">
-            <!-- 一级标题 -->
-            <div
-              class="item"
-              v-for="(item, index) in categoryList"
-              :key="item.categoryId"
-            >
-              <h3
-                @mouseenter="indexEnter(index)"
-                @mouseleave="indexLeave"
-                :class="{ changeIndex: index === currenIndex }"
+        <!-- 过渡动画 -->
+        <transition name="sort">
+          <div class="sort" v-show="show">
+            <div class="all-sort-list2" @click="goSearch">
+              <!-- 一级标题 -->
+              <div
+                class="item"
+                v-for="(item, index) in categoryList"
+                :key="item.categoryId"
               >
-                <a
-                  :data-categoryName="item.categoryName"
-                  :data-category1Id="item.categoryId"
-                  >{{ item.categoryName }}</a
+                <h3
+                  @mouseenter="indexEnter(index)"
+                  @mouseleave="indexLeave"
+                  :class="{ changeIndex: index === currenIndex }"
                 >
-              </h3>
-              <div class="item-list clearfix">
-                <div
-                  class="subitem"
-                  v-for="item2 in item.categoryChild"
-                  :key="item2.categoryId"
-                >
-                  <!-- 二级标题 -->
-                  <dl class="fore">
-                    <dt>
-                      <a
-                        :data-categoryName="item2.categoryName"
-                        :data-category2Id="item2.categoryId"
-                        >{{ item2.categoryName }}</a
-                      >
-                    </dt>
-                    <dd>
-                      <!-- 三级标题 -->
-                      <em
-                        v-for="item3 in item2.categoryChild"
-                        :key="item3.categoryId"
-                      >
+                  <a
+                    :data-categoryName="item.categoryName"
+                    :data-category1Id="item.categoryId"
+                    >{{ item.categoryName }}</a
+                  >
+                </h3>
+                <div class="item-list clearfix">
+                  <div
+                    class="subitem"
+                    v-for="item2 in item.categoryChild"
+                    :key="item2.categoryId"
+                  >
+                    <!-- 二级标题 -->
+                    <dl class="fore">
+                      <dt>
                         <a
-                          :data-categoryName="item3.categoryName"
-                          :data-category3Id="item3.categoryId"
-                          >{{ item3.categoryName }}</a
+                          :data-categoryName="item2.categoryName"
+                          :data-category2Id="item2.categoryId"
+                          >{{ item2.categoryName }}</a
                         >
-                      </em>
-                    </dd>
-                  </dl>
+                      </dt>
+                      <dd>
+                        <!-- 三级标题 -->
+                        <em
+                          v-for="item3 in item2.categoryChild"
+                          :key="item3.categoryId"
+                        >
+                          <a
+                            :data-categoryName="item3.categoryName"
+                            :data-category3Id="item3.categoryId"
+                            >{{ item3.categoryName }}</a
+                          >
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -80,6 +83,7 @@ export default {
   data() {
     return {
       currenIndex: -1,
+      show: true,
     };
   },
   computed: {
@@ -90,8 +94,14 @@ export default {
   mounted() {
     // 获取三级联动的数据
     this.getCategoryList();
+
+    // 三级分类的显示和隐藏
+    if (this.$route.meta.showTypeNav === false) {
+      this.show = false;
+    }
   },
   methods: {
+    // 获取三级联动数据
     async getCategoryList() {
       // 获取三级联动的数据
       await this.$store.dispatch("home/getCategoryList");
@@ -134,7 +144,6 @@ export default {
       let { categoryname, category1id, category2id, category3id } =
         node.dataset;
 
-      console.log(category1id);
       if (categoryname) {
         // 整理参数
         const location = { name: "search" };
@@ -157,6 +166,16 @@ export default {
       // this.$router.push({
       //   name: "search",
       // });
+    },
+
+    // 鼠标进入和移除 隐藏三级联动
+    showTab() {
+      this.show = true;
+    },
+    removeTab() {
+      if (this.$route.meta.showTypeNav === false) {
+        this.show = false;
+      }
     },
   },
 };
@@ -287,6 +306,20 @@ export default {
       .changeIndex {
         background-color: #ddd;
       }
+    }
+
+    // 为三级联动添加过渡动画
+    // 进入
+    .sort-enter {
+      height: 0px;
+    }
+
+    .sort-enter-to {
+      height: 461px;
+    }
+
+    .sort-enter-active {
+      transition: all 0.5s linear;
     }
   }
 }

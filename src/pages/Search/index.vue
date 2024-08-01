@@ -1,14 +1,11 @@
 <template>
   <div>
-    Search
-    <div>params参数： {{ keyword }} query参数： {{ id }}</div>
+    <TypeNav></TypeNav>
   </div>
 </template>
 
 <script>
-export default {
-  props: ["id", "keyword"],
-};
+export default {};
 </script>
 
 <style></style>
