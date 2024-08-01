@@ -6,22 +6,21 @@ import "./assets/reset/iconfont.css";
 import "./assets/reset/reset.css";
 
 // 全局组件引入
-import TypeNav from "@/pages/Home/TypeNav";
-
+import TypeNav from "@/components/TypeNav";
 // 全局组件注册
 Vue.component("TypeNav", TypeNav);
 
 // 引入路由
 import router from "./router";
 
-Vue.config.productionTip = false;
+// 引入vuex
+import store from "@/store";
 
-import { GetCategoryList } from "@/api/index";
-const res = await GetCategoryList();
-console.log(res);
+Vue.config.productionTip = false;
 
 new Vue({
   render: (h) => h(App),
   // 注册路由
   router,
+  store,
 }).$mount("#app");

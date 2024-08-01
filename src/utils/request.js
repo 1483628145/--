@@ -1,4 +1,7 @@
 import axios from "axios";
+// 进度条
+import nProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 // 创建对象
 const request = axios.create({
@@ -9,6 +12,8 @@ const request = axios.create({
 
 // 请求拦截器
 request.interceptors.request.use((config) => {
+  // 进度条开始
+  nProgress.start();
   return config;
 });
 
@@ -16,6 +21,8 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   // 响应成功
   (response) => {
+    // 进度条结束
+    nProgress.done();
     return response.data;
   },
   // 响应失败
