@@ -14,7 +14,7 @@
           <a href="###">秒杀</a>
         </nav>
         <div class="sort">
-          <div class="all-sort-list2">
+          <div class="all-sort-list2" @click="goSearch">
             <!-- 一级标题 -->
             <div
               class="item"
@@ -26,7 +26,11 @@
                 @mouseleave="indexLeave"
                 :class="{ changeIndex: index === currenIndex }"
               >
-                <a href="">{{ item.categoryName }}</a>
+                <a
+                  :data-categoryName="item.categoryName"
+                  :data-category1Id="item.categoryId"
+                  >{{ item.categoryName }}</a
+                >
               </h3>
               <div class="item-list clearfix">
                 <div
@@ -37,7 +41,11 @@
                   <!-- 二级标题 -->
                   <dl class="fore">
                     <dt>
-                      <a href="">{{ item2.categoryName }}</a>
+                      <a
+                        :data-categoryName="item2.categoryName"
+                        :data-category2Id="item2.categoryId"
+                        >{{ item2.categoryName }}</a
+                      >
                     </dt>
                     <dd>
                       <!-- 三级标题 -->
@@ -45,7 +53,11 @@
                         v-for="item3 in item2.categoryChild"
                         :key="item3.categoryId"
                       >
-                        <a href="">{{ item3.categoryName }}</a>
+                        <a
+                          :data-categoryName="item3.categoryName"
+                          :data-category3Id="item3.categoryId"
+                          >{{ item3.categoryName }}</a
+                        >
                       </em>
                     </dd>
                   </dl>
@@ -61,6 +73,7 @@
 
 <script>
 import { mapState } from "vuex";
+// 引入lodash --全部引入功能
 import _ from "lodash";
 export default {
   name: "TypeNav",
@@ -84,12 +97,66 @@ export default {
       await this.$store.dispatch("home/getCategoryList");
     },
     // 鼠标进入
-    indexEnter(index) {
+    // indexEnter(index) {
+    //   this.currenIndex = index;
+    // },
+
+    // 鼠标进入--节流优化
+    indexEnter: _.throttle(function (index) {
+      // 使用节流的方式去优化代码 这样不论用户在50mm内滑动多少都只有一次执行
       this.currenIndex = index;
-    },
+    }, 50),
+
     // 鼠标移除
     indexLeave() {
       this.currenIndex = -1;
+    },
+
+    // 点击发生路由跳转
+    goSearch(event) {
+      // 采用 事件委派 + 编程式导航实现
+      // 但是问题也出现 如何保证点击a标签
+      // 如何拿到跳转的时候拿到当前的id和name
+      // 并将信息通过路由传参的形式拿给search路由
+
+      // 解决方案是使用 自定义属性来实现
+      // 通过这个自定义属性 data-categoryName
+      // 然后使用 event.target拿到当前事件的节点
+      let node = event.target;
+
+      // 通过这个形式就可以确定我们拿到的节点是不是a标签
+      // 从而解决了第一个问题 --- 如何确定点击的是a标签
+      // 使用 dataset可以拿到当前是节点的自定义属性
+      // 如果我们拿到的自定义属性里面是 categoryname的时候
+      // 也就保证了这是一个a标签
+      // 从而再触发跳转等
+
+      let { categoryname, category1id, category2id, category3id } =
+        node.dataset;
+
+      console.log(category1id);
+      if (categoryname) {
+        // 整理参数
+        const location = { name: "search" };
+        const query = { categoryName: categoryname };
+
+        if (category1id) {
+          // 一级分类
+          query.category1Id = category1id;
+        } else if (category2id) {
+          // 二级分类
+          query.category2Id = category2id;
+        } else {
+          // 三级分类
+          query.category3Id = category3id;
+        }
+        location.query = query;
+        this.$router.push(location);
+      }
+
+      // this.$router.push({
+      //   name: "search",
+      // });
     },
   },
 };
