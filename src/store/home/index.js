@@ -1,16 +1,23 @@
 // home模块
 
 import { getCategoryList } from "@/api/home.js";
+import { getBannerList } from "@/api/home.js";
 
 const state = {
   // 三级联动列表
   categoryList: [],
+  bannerList: [],
 };
 
 const mutations = {
   // 保存categoryList
   createCategoryList(state, categoryList) {
     state.categoryList = categoryList.data;
+  },
+  // 保存bannerList
+  setBannerList(state, bannerList) {
+    state.bannerList = bannerList.data;
+    console.log(state.bannerList);
   },
 };
 
@@ -19,6 +26,13 @@ const actions = {
   async getCategoryList(context) {
     const categoryList = await getCategoryList();
     context.commit("createCategoryList", categoryList);
+  },
+
+  // 获取轮播图
+  async getBannerList(context) {
+    let bannerList = await getBannerList();
+    // console.log(res.data);
+    context.commit("setBannerList", bannerList);
   },
 };
 

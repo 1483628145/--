@@ -1,18 +1,20 @@
-[
+const banner = [
   {
     id: "1",
-    imgUrl: "../../public/images/banner1.jpg",
+    imgUrl: require("../../public/images/banner1.jpg"),
   },
   {
     id: "2",
-    imgUrl: "../../public/images/banner2.jpg",
+    imgUrl: require("../../public/images/banner2.jpg"),
   },
   {
     id: "3",
-    imgUrl: "../../public/images/banner3.jpg",
+    imgUrl: require("../../public/images/banner3.jpg"),
   },
   {
     id: "4",
-    imgUrl: "../../public/images/banner4.jpg",
+    imgUrl: require("../../public/images/banner4.jpg"),
   },
 ];
+
+export default banner;
