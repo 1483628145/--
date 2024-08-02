@@ -98,18 +98,73 @@
 
 <script>
 import { mapState } from "vuex";
+import Swiper from "swiper";
 export default {
   name: "List",
   data() {
     return {};
   },
-  mounted() {
-    this.getBannerList();
-    console.log(this.bannerList);
+  async mounted() {
+    await this.getBannerList();
+    // 使用异步也能实现 最好的方式是用watch去检测数据的变化 当数据变化的时候 创建对象
+    // this.initSwiper();
+  },
+  // 监听数据的变化
+  watch: {
+    // 检测bannerList变化
+    bannerList: {
+      handler(newvalue, oldvalue) {
+        console.log(this.bannerList);
+        // 直接在后面创建是不行的 只能保证数据有 但是结构还是没有
+        // new Swiper(".swiper-container", {
+        //   loop: true,
+        //   pagination: {
+        //     el: ".swiper-pagination",
+        //     clickable: true,
+        //   },
+        //   navigation: {
+        //     nextEl: ".swiper-button-next",
+        //     prevEl: ".swiper-button-prev",
+        //   },
+        //   scrollbar: {
+        //     el: ".swiper-scrollbar",
+        //   },
+        // });
+        this.$nextTick(() => {
+          // 这个回调函数是在 DOM节点全部更新后才执行
+          // 这个时候拿到的是 DOM 和 bannerList都完成了
+          // watch + nextTick 完美解决这个需求
+          // 很多插件都需要使用 在修改数据之后 然后再执行回调
+          this.initSwiper();
+        });
+      },
+    },
+  },
+  updated() {
+    // 在update中使用是可以实现的 但是一旦响应式数据多了就不好了
+    // this.initSwiper();
   },
   methods: {
+    // 拿到list
     async getBannerList() {
       await this.$store.dispatch("home/getBannerList");
+    },
+    // 初始化swiper
+    initSwiper() {
+      new Swiper(".swiper-container", {
+        loop: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        scrollbar: {
+          el: ".swiper-scrollbar",
+        },
+      });
     },
   },
   computed: {
@@ -293,3 +348,7 @@ export default {
   }
 }
 </style>
+
+<!-- 如何使用 swiper -->
+<!-- 引入包 js + css -->
+<!-- 创建swiper对象 -->

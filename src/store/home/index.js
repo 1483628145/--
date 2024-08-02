@@ -17,7 +17,6 @@ const mutations = {
   // 保存bannerList
   setBannerList(state, bannerList) {
     state.bannerList = bannerList.data;
-    console.log(state.bannerList);
   },
 };
 

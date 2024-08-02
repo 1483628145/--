@@ -4,6 +4,7 @@ import App from "./App.vue";
 // 全局样式引入
 import "./assets/reset/iconfont.css";
 import "./assets/reset/reset.css";
+import 'swiper/css/swiper.css'
 
 // 全局组件引入
 import TypeNav from "@/components/TypeNav";
