@@ -4,12 +4,12 @@
       <!-- 一级分类 -->
       <div class="py-container">
         <div class="title clearfix">
-          <h3 class="fl">家用电器</h3>
+          <h3 class="fl">{{ list.name }}</h3>
           <div class="fr">
             <ul class="nav-tabs clearfix">
               <!-- tabTab -->
-              <li class="active">
-                <a href="#tab1" data-toggle="tab">热门</a>
+              <li class="active" v-for="item in list.keywords" :key="item">
+                <a href="#tab1" data-toggle="tab">{{ item }}</a>
               </li>
             </ul>
           </div>
@@ -20,16 +20,23 @@
               <div class="blockgary">
                 <ul class="jd-list">
                   <!-- keyWords -->
-                  <li>节能补贴</li>
+                  <li v-for="navlist in list.navList" :key="navlist.id">
+                    {{ navlist.text }}
+                  </li>
                 </ul>
-                <img src="../Floor/images/floor-1-1.png" />
+                <img :src="list.imgUrl" />
               </div>
+              <!-- 轮播图 -->
               <div class="floorBanner">
                 <div class="swiper-container" id="floor1Swiper">
                   <div class="swiper-wrapper">
                     <!-- 轮播图 -->
-                    <div class="swiper-slide">
-                      <img src="../Floor/images/floor-1-b01.png" />
+                    <div
+                      class="swiper-slide"
+                      v-for="carouseImg in list.carouselList"
+                      :key="carouseImg.id"
+                    >
+                      <img :src="carouseImg.imgUrl" />
                     </div>
                   </div>
                   <!-- 如果需要分页器 -->
@@ -40,25 +47,28 @@
                   <div class="swiper-button-next"></div>
                 </div>
               </div>
+
               <div class="split">
                 <span class="floor-x-line"></span>
                 <div class="floor-conver-pit">
-                  <img src="../Floor/images/floor-1-2.png" />
+                  <img :src="list.recommendList[0]" />
                 </div>
                 <div class="floor-conver-pit">
-                  <img src="../Floor/images/floor-1-3.png" />
+                  <img :src="list.recommendList[1]" />
                 </div>
               </div>
               <div class="split center">
-                <img src="../Floor/images/floor-1-4.png" />
+                <img :src="list.bigImg" />
               </div>
               <div class="split">
                 <span class="floor-x-line"></span>
                 <div class="floor-conver-pit">
-                  <img src="../Floor/images/floor-1-5.png" />
+                  <img :src="list.recommendList[2]" />
+                  <!-- <img src="./images/home/floor-1-5.png" /> -->
                 </div>
                 <div class="floor-conver-pit">
-                  <img src="../Floor/images/floor-1-6.png" />
+                  <img :src="list.recommendList[3]" />
+                  <!-- <img src="./images/home/floor-1-6.png" /> -->
                 </div>
               </div>
             </div>
@@ -75,9 +85,8 @@ export default {
   data() {
     return {};
   },
-  computed: {
-   
-  },
+  props: ["list"],
+  computed: {},
 };
 </script>
 

@@ -6,7 +6,7 @@
     <Rank></Rank>
     <BeLike></BeLike>
     <!-- 使用父子组件通信将数据分别传给floor -->
-    <Floor v-for="item in floorList" :key="item.id"></Floor>
+    <Floor v-for="item in floorList" :key="item.id" :list="item"></Floor>
     <Brand></Brand>
   </div>
 </template>

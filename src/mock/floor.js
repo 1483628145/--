@@ -36,10 +36,6 @@ const floorList = [
         url: "#",
         text: "空气/净水",
       },
-      {
-        url: "#",
-        text: "高端电器",
-      },
     ],
     carouselList: [
       {
