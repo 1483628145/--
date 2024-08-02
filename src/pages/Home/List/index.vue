@@ -114,7 +114,6 @@ export default {
     // 检测bannerList变化
     bannerList: {
       handler(newvalue, oldvalue) {
-        console.log(this.bannerList);
         // 直接在后面创建是不行的 只能保证数据有 但是结构还是没有
         // new Swiper(".swiper-container", {
         //   loop: true,

@@ -12,3 +12,8 @@ export const getCategoryList = () => {
  * 获取banner数据(mock数据)
  * **/
 export const getBannerList = () => mockRequest.get("/banner");
+
+/**
+ * 获取floor数据(mock数据)
+ * **/
+export const getFloorList = () => mockRequest.get("/floor");

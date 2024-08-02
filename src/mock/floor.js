@@ -1,4 +1,4 @@
-[
+const floorList = [
   {
     id: "001",
     name: "家用电器",
@@ -10,7 +10,7 @@
       "滚筒洗衣机",
       "电热水器",
     ],
-    imgUrl: "../../public/images/floor-1-1.png",
+    imgUrl: require("../../public/images/floor-1-1.png"),
     navList: [
       {
         url: "#",
@@ -44,24 +44,24 @@
     carouselList: [
       {
         id: "0011",
-        imgUrl: "../../public/images/floor-1-b01.png",
+        imgUrl: require("../../public/images/floor-1-b01.png"),
       },
       {
         id: "0012",
-        imgUrl: "../../public/images/floor-1-b02.png",
+        imgUrl: require("../../public/images/floor-1-b02.png"),
       },
       {
         id: "0013",
-        imgUrl: "../../public/images/floor-1-b03.png",
+        imgUrl: require("../../public/images/floor-1-b03.png"),
       },
     ],
     recommendList: [
-      "../../public/images/floor-1-2.png",
-      "../../public/images/floor-1-3.png",
-      "../../public/images/floor-1-5.png",
-      "../../public/images/floor-1-6.png",
+      require("../../public/images/floor-1-2.png"),
+      require("../../public/images/floor-1-3.png"),
+      require("../../public/images/floor-1-5.png"),
+      require("../../public/images/floor-1-6.png"),
     ],
-    bigImg: "../../public/images/floor-1-4.png",
+    bigImg: require("../../public/images/floor-1-4.png"),
   },
   {
     id: "002",
@@ -74,7 +74,7 @@
       "滚筒洗衣机2",
       "电热水器2",
     ],
-    imgUrl: "../../public/images/floor-1-1.png",
+    imgUrl: require("../../public/images/floor-1-1.png"),
     navList: [
       {
         url: "#",
@@ -108,23 +108,25 @@
     carouselList: [
       {
         id: "0011",
-        imgUrl: "../../public/images/floor-1-b01.png",
+        imgUrl: require("../../public/images/floor-1-b01.png"),
       },
       {
         id: "0012",
-        imgUrl: "../../public/images/floor-1-b02.png",
+        imgUrl: require("../../public/images/floor-1-b02.png"),
       },
       {
         id: "0013",
-        imgUrl: "../../public/images/floor-1-b03.png",
+        imgUrl: require("../../public/images/floor-1-b03.png"),
       },
     ],
     recommendList: [
-      "../../public/images/floor-1-2.png",
-      "../../public/images/floor-1-3.png",
-      "../../public/images/floor-1-5.png",
-      "../../public/images/floor-1-6.png",
+      require("../../public/images/floor-1-2.png"),
+      require("../../public/images/floor-1-3.png"),
+      require("../../public/images/floor-1-5.png"),
+      require("../../public/images/floor-1-6.png"),
     ],
-    bigImg: "/images/floor-1-4.png",
+    bigImg: require("../../public/images/floor-1-4.png"),
   },
 ];
+
+export default floorList;
