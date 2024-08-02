@@ -17,6 +17,16 @@ export default {
     Header,
     Footer,
   },
+  methods: {
+    // 获取三级联动数据
+    async getCategoryList() {
+      // 获取三级联动的数据
+      await this.$store.dispatch("home/getCategoryList");
+    },
+  },
+  mounted() {
+    this.getCategoryList();
+  },
 };
 </script>
 

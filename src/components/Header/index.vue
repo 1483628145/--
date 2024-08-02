@@ -70,21 +70,17 @@ export default {
       //   name: "search",
       // });
       // 路由传参 传递 props参数
-      let res = this.$router.push(
+      this.$router.push(
         {
           name: "search",
           params: {
             keyword: this.keyword,
-          },
-          query: {
-            id: this.keyword.toUpperCase(),
           },
         }
         // 这俩行的意思是 给promise俩个回调 成功和失败 这样就不会执行内部的失败回调
         // () => {},
         // () => {}
       );
-      console.log(res);
     },
   },
 };

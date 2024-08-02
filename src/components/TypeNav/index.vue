@@ -93,7 +93,7 @@ export default {
   },
   mounted() {
     // 获取三级联动的数据
-    this.getCategoryList();
+    // this.getCategoryList();
 
     // 三级分类的显示和隐藏
     if (this.$route.meta.showTypeNav === false) {
@@ -101,11 +101,11 @@ export default {
     }
   },
   methods: {
-    // 获取三级联动数据
-    async getCategoryList() {
-      // 获取三级联动的数据
-      await this.$store.dispatch("home/getCategoryList");
-    },
+    // // 获取三级联动数据
+    // async getCategoryList() {
+    //   // 获取三级联动的数据
+    //   await this.$store.dispatch("home/getCategoryList");
+    // },
     // 鼠标进入
     // indexEnter(index) {
     //   this.currenIndex = index;
