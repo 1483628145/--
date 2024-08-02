@@ -159,8 +159,12 @@ export default {
           // 三级分类
           query.category3Id = category3id;
         }
-        location.query = query;
-        this.$router.push(location);
+        // 判断路由是否有params参数 有的话需要带上
+        if (this.$route.params) {
+          location.params = this.$route.params;
+          location.query = query;
+          this.$router.push(location);
+        }
       }
 
       // this.$router.push({
