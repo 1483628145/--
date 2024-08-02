@@ -70,19 +70,27 @@ export default {
       //   name: "search",
       // });
       // 路由传参 传递 props参数
-      this.$router.push(
-        {
-          name: "search",
-          params: {
-            keyword: this.keyword,
-          },
-        }
-        // 这俩行的意思是 给promise俩个回调 成功和失败 这样就不会执行内部的失败回调
-        // () => {},
-        // () => {}
-      );
+      // this.$router.push(
+      //   {
+      //     name: "search",
+      //     params: {
+      //       keyword: this.keyword,
+      //     },
+      //   }
+      //   // 这俩行的意思是 给promise俩个回调 成功和失败 这样就不会执行内部的失败回调
+      //   // () => {},
+      //   // () => {}
+      // );
+
+      // 判断是否存在query参数 如果存在那么拼接参数
+      const location = { name: "search", params: { keyword: this.keyword } };
+      // 判断query参数
+      if (this.$route.query) {
+        location.query = this.$route.query;
+        this.$router.push(location);
+      }
     },
-  },
+  },  
 };
 </script>
 
