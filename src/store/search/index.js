@@ -10,7 +10,6 @@ const mutations = {
   // 保存ProduceList
   setProduceList(state, produceList) {
     state.produceList = produceList.data;
-    console.log(state.produceList.goodsList);
   },
 };
 const actions = {
@@ -23,7 +22,12 @@ const actions = {
 // getter 计算属性 方便拿数据
 const getters = {
   // 商品列表
-  goodsList: (state) => state.produceList.goodsList,
+  // 在这里起码要返回一个 空数组 
+  goodsList: (state) => state.produceList.goodsList || [],
+  // 商品属性
+  attrsList: (state) => state.produceList.attrsList || [],
+  // 品牌列表
+  trademarkList: (state) => state.produceList.trademarkList || [],
 };
 
 export default {
