@@ -91,6 +91,7 @@ export default {
       categoryList: (state) => state.home.categoryList,
     }),
   },
+  // 挂载 
   mounted() {
     // 获取三级联动的数据
     // this.getCategoryList();

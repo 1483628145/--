@@ -4,23 +4,7 @@
       <div class="sortList clearfix">
         <div class="center">
           <!--banner轮播-->
-          <div class="swiper-container" id="mySwiper">
-            <div class="swiper-wrapper">
-              <div
-                class="swiper-slide"
-                v-for="item in bannerList"
-                :key="item.id"
-              >
-                <img :src="item.imgUrl" />
-              </div>
-            </div>
-            <!-- 如果需要分页器 -->
-            <div class="swiper-pagination"></div>
-
-            <!-- 如果需要导航按钮 -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-          </div>
+          <Carousel :list="bannerList"></Carousel>
         </div>
         <div class="right">
           <div class="news">
@@ -98,7 +82,7 @@
 
 <script>
 import { mapState } from "vuex";
-import Swiper from "swiper";
+// import Swiper from "swiper";
 export default {
   name: "List",
   data() {
@@ -111,33 +95,33 @@ export default {
   },
   // 监听数据的变化
   watch: {
-    // 检测bannerList变化
-    bannerList: {
-      handler(newvalue, oldvalue) {
-        // 直接在后面创建是不行的 只能保证数据有 但是结构还是没有
-        // new Swiper(".swiper-container", {
-        //   loop: true,
-        //   pagination: {
-        //     el: ".swiper-pagination",
-        //     clickable: true,
-        //   },
-        //   navigation: {
-        //     nextEl: ".swiper-button-next",
-        //     prevEl: ".swiper-button-prev",
-        //   },
-        //   scrollbar: {
-        //     el: ".swiper-scrollbar",
-        //   },
-        // });
-        this.$nextTick(() => {
-          // 这个回调函数是在 DOM节点全部更新后才执行
-          // 这个时候拿到的是 DOM 和 bannerList都完成了
-          // watch + nextTick 完美解决这个需求
-          // 很多插件都需要使用 在修改数据之后 然后再执行回调
-          this.initSwiper();
-        });
-      },
-    },
+    // 检测bannerList变化 封装到公共组件 carousel轮播图里面
+    // bannerList: {
+    //   handler(newvalue, oldvalue) {
+    //     // 直接在后面创建是不行的 只能保证数据有 但是结构还是没有
+    //     // new Swiper(".swiper-container", {
+    //     //   loop: true,
+    //     //   pagination: {
+    //     //     el: ".swiper-pagination",
+    //     //     clickable: true,
+    //     //   },
+    //     //   navigation: {
+    //     //     nextEl: ".swiper-button-next",
+    //     //     prevEl: ".swiper-button-prev",
+    //     //   },
+    //     //   scrollbar: {
+    //     //     el: ".swiper-scrollbar",
+    //     //   },
+    //     // });
+    //     this.$nextTick(() => {
+    //       // 这个回调函数是在 DOM节点全部更新后才执行
+    //       // 这个时候拿到的是 DOM 和 bannerList都完成了
+    //       // watch + nextTick 完美解决这个需求
+    //       // 很多插件都需要使用 在修改数据之后 然后再执行回调
+    //       this.initSwiper();
+    //     });
+    //   },
+    // },
   },
   updated() {
     // 在update中使用是可以实现的 但是一旦响应式数据多了就不好了
@@ -148,23 +132,23 @@ export default {
     async getBannerList() {
       await this.$store.dispatch("home/getBannerList");
     },
-    // 初始化swiper
-    initSwiper() {
-      new Swiper(".swiper-container", {
-        loop: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        scrollbar: {
-          el: ".swiper-scrollbar",
-        },
-      });
-    },
+    // // 初始化swiper
+    // initSwiper() {
+    //   new Swiper(this.$refs.mySwiper, {
+    //     loop: true,
+    //     pagination: {
+    //       el: ".swiper-pagination",
+    //       clickable: true,
+    //     },
+    //     navigation: {
+    //       nextEl: ".swiper-button-next",
+    //       prevEl: ".swiper-button-prev",
+    //     },
+    //     scrollbar: {
+    //       el: ".swiper-scrollbar",
+    //     },
+    //   });
+    // },
   },
   computed: {
     ...mapState({
@@ -347,7 +331,3 @@ export default {
   }
 }
 </style>
-
-<!-- 如何使用 swiper -->
-<!-- 引入包 js + css -->
-<!-- 创建swiper对象 -->

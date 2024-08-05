@@ -83,14 +83,19 @@ export default {
       // );
 
       // 判断是否存在query参数 如果存在那么拼接参数
-      const location = { name: "search", params: { keyword: this.keyword } };
+      // location：
+      const location = {
+        name: "search",
+        params: { keyword: this.keyword },
+      };
       // 判断query参数
       if (this.$route.query) {
         location.query = this.$route.query;
+        // push：跳转
         this.$router.push(location);
       }
     },
-  },  
+  },
 };
 </script>
 

@@ -28,24 +28,8 @@
               </div>
               <!-- 轮播图 -->
               <div class="floorBanner">
-                <div class="swiper-container" id="floor1Swiper">
-                  <div class="swiper-wrapper">
-                    <!-- 轮播图 -->
-                    <div
-                      class="swiper-slide"
-                      v-for="carouseImg in list.carouselList"
-                      :key="carouseImg.id"
-                    >
-                      <img :src="carouseImg.imgUrl" />
-                    </div>
-                  </div>
-                  <!-- 如果需要分页器 -->
-                  <div class="swiper-pagination"></div>
-
-                  <!-- 如果需要导航按钮 -->
-                  <div class="swiper-button-prev"></div>
-                  <div class="swiper-button-next"></div>
-                </div>
+                <!-- 公共组件 轮播图 将数据传递过去 -->
+                <Carousel :list="list.carouselList"></Carousel>
               </div>
 
               <div class="split">
@@ -80,6 +64,7 @@
 </template>
 
 <script>
+// import Swiper from "swiper";
 export default {
   name: "Floor",
   data() {
@@ -87,6 +72,68 @@ export default {
   },
   props: ["list"],
   computed: {},
+  watch: {
+    // 监测list的变化 立即执行一次 不管有没有变化
+    list: {
+      // 立即执行一下 不论数据变化没有
+      immediate: true,
+      handler(newvalue, oldvalue) {
+        // 直接在后面创建是不行的 只能保证数据有 但是结构还是没有
+        // new Swiper(".swiper-container", {
+        //   loop: true,
+        //   pagination: {
+        //     el: ".swiper-pagination",
+        //     clickable: true,
+        //   },
+        //   navigation: {
+        //     nextEl: ".swiper-button-next",
+        //     prevEl: ".swiper-button-prev",
+        //   },
+        //   scrollbar: {
+        //     el: ".swiper-scrollbar",
+        //   },
+        // });
+        this.$nextTick(() => {
+          // 这个回调函数是在 DOM节点全部更新后才执行
+          // 这个时候拿到的是 DOM 和 bannerList都完成了
+          // watch + nextTick 完美解决这个需求
+          // 很多插件都需要使用 在修改数据之后 然后再执行回调
+          // Swiper需要将DOM节点作为对象传入
+          new Swiper(this.$refs.floor1Swiper, {
+            loop: true,
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true,
+            },
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+            scrollbar: {
+              el: ".swiper-scrollbar",
+            },
+          });
+        });
+      },
+    },
+  },
+  mounted() {
+    // 创建swiper实例 由于数据是父组件传递过来的 所以直接在挂载的地方创建实例
+    // new Swiper(".swiper-container", {
+    //   loop: true,
+    //   pagination: {
+    //     el: ".swiper-pagination",
+    //     clickable: true,
+    //   },
+    //   navigation: {
+    //     nextEl: ".swiper-button-next",
+    //     prevEl: ".swiper-button-prev",
+    //   },
+    //   scrollbar: {
+    //     el: ".swiper-scrollbar",
+    //   },
+    // });
+  },
 };
 </script>
 
