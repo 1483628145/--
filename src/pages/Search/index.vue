@@ -151,6 +151,25 @@ export default {
       },
     };
   },
+  beforeMount() {
+    // 整理query和params参数 然后在将这些数据传递到getProduceList这个方法里面
+    // 显然在这个组件是可以拿到路由的query和params参数的
+    // console.log(this.$route.params);
+
+    // 处理参数 更新请求参数  更好的方法是使用 Object.assin
+    // this.searchParams.category1Id = this.$route.query.category1Id;
+    // this.searchParams.category2Id = this.$route.query.category2Id;
+    // this.searchParams.category3Id = this.$route.query.category3Id;
+    // this.searchParams.categoryName = this.$route.query.categoryName;
+    // this.searchParams.keyword = this.$route.params.keyword;
+
+    // 使用 Object.assign 合并对象
+    // 相关语法：后面的对象的参数 添加到第一个对象里面
+    Object.assign(this.searchParams, this.$route.query, this.$route.params);
+
+    // 在处理完后再调用接口就可以通过路由参数拿到数据
+    // console.log(this.searchParams.category1Id);
+  },
   mounted() {
     this.getProductList();
   },
