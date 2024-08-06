@@ -12,9 +12,14 @@
           </ul>
           <!-- 搜索结果 -->
           <ul class="fl sui-tag">
+            <!-- 分类面包屑 -->
             <li class="with-x" v-if="searchParams.categoryName">
               {{ searchParams.categoryName
               }}<i @click="removeCategoryName">×</i>
+            </li>
+            <!-- 关键字面包屑 -->
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
             </li>
           </ul>
         </div>
@@ -151,6 +156,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters("search", ["goodsList", "attrsList", "trademarkList"]),
+  },
   watch: {
     // 监听路由变化
     // 根据路由的变化重复发请求
@@ -194,23 +202,52 @@ export default {
     },
     // 置空请求id
     clearParams() {
-      this.searchParams.category1Id = "";
-      this.searchParams.category2Id = "";
-      this.searchParams.category3Id = "";
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
     },
     // 删除分类名字
     removeCategoryName() {
       // 先置空分类名字
-      this.searchParams.categoryName = "";
+      this.searchParams.categoryName = undefined;
       // 将id也置空
       this.clearParams();
       // this.$route.push()
       // 重新发请求
       this.getProductList();
+      // 路由跳转 带params的时候要带上 不带的时候直接跳转到自己页面
+      if (this.$route.params) {
+        this.$router.push({
+          name: "search",
+          params: this.$route.params,
+        });
+      } else {
+        this.$router.push({ name: "search" });
+      }
     },
-  },
-  computed: {
-    ...mapGetters("search", ["goodsList", "attrsList", "trademarkList"]),
+    // 删除关键字
+    removeKeyword() {
+      // 删除路由的params参数
+      // this.$route.params = {};
+      // 删除keyword
+      this.searchParams.keyword = undefined;
+      // 不需要清空id
+      // 重新发请求
+      this.getProductList();
+      // 将搜索框里面的值置空 通知header兄弟组件删除keyword
+      // 通过$bus 提示header组件删除keyword
+      this.$bus.$emit("clearKeyword");
+      // 页面发生跳转
+      if (this.$route.query) {
+        this.$router.push({
+          name: "search",
+          query: this.$route.query,
+          params: {},
+        });
+      } else {
+        this.$router.push({ name: "search", params: {} });
+      }
+    },
   },
 };
 </script>

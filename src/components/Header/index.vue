@@ -58,7 +58,7 @@
 
 <script>
 export default {
-  date() {
+  data() {
     return {
       keyword: "",
     };
@@ -95,6 +95,12 @@ export default {
         this.$router.push(location);
       }
     },
+  },
+  mounted() {
+    // 监听$bus 清除掉keyword
+    this.$bus.$on("clearKeyword", () => {
+      this.keyword = "";
+    });
   },
 };
 </script>
