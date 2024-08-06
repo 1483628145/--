@@ -20,11 +20,18 @@
         <a href="javascript:void(0);">更多</a>
       </div>
     </div>
+    <!-- 商品属性 -->
     <div class="type-wrap" v-for="att in attrsList" :key="att.attrId">
+      <!-- 属性名 -->
       <div class="fl key">{{ att.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attr, index) in att.attrValueList" :key="index">
+          <!-- 商品属性对应的属性值 -->
+          <li
+            v-for="(attr, index) in att.attrValueList"
+            :key="index"
+            @click="changeAttr(att, attr)"
+          >
             <a>{{ attr }}</a>
           </li>
         </ul>
@@ -43,10 +50,17 @@ export default {
     ...mapGetters("search", ["trademarkList", "attrsList"]),
   },
   methods: {
+    // 改变品牌 将数据传递到父组件
     changeTraderMark(trademark) {
       // 将数据传递给父组件
       this.$emit("changeTardeMark", trademark);
       // console.log(trademark);
+    },
+    // 改变商品属性 将数据传递到search组件
+    changeAttr(att, attr) {
+      // 将数据处理好 ["属性ID:属性值:属性名"]
+      // console.log(att.attrId, att.attrName, attr);
+      this.$emit("changeAttr", att, attr);
     },
   },
 };

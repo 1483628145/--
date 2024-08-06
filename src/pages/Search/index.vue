@@ -26,11 +26,23 @@
               {{ searchParams.trademark.split(":")[1]
               }}<i @click="removeTardeMark">×</i>
             </li>
+            <!-- 商品属性面包屑 -->
+            <li
+              class="with-x"
+              v-for="(item, index) in searchParams.props"
+              :key="index"
+            >
+              {{ item.split(":")[1] }}
+              <i @click="removeAttr(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector @changeTardeMark="tarderMarket" />
+        <SearchSelector
+          @changeTardeMark="tarderMarket"
+          @changeAttr="changeAttr"
+        />
 
         <!--details-->
         <div class="details clearfix">
@@ -156,7 +168,7 @@ export default {
         pageNo: 1,
         pageSize: 10,
         // 平台售卖参数
-        props: [""],
+        props: [],
         trademark: "",
       },
     };
@@ -253,6 +265,16 @@ export default {
         this.$router.push({ name: "search", params: {} });
       }
     },
+    // 删除品牌
+    removeTardeMark() {
+      this.searchParams.trademark = undefined;
+      this.getProductList();
+    },
+    // 删除商品属性
+    removeAttr(index) {
+      this.searchParams.props[index] = "";
+      this.getProductList();
+    },
     // 接收子组件传递过来的品牌数据
     tarderMarket(trademark) {
       // console.log(trademark);
@@ -260,10 +282,17 @@ export default {
       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
       this.getProductList();
     },
-    // 删除品牌
-    removeTardeMark() {
-      this.searchParams.trademark = undefined;
+    // 接收子组件传递过来的商品参数： ["属性ID:属性值:属性名"]
+    changeAttr(att, attr) {
+      // 整理数据
+      const prop = `${att.attrId}:${attr}:${att.attrName}`;
+      // 数组去重
+      if (this.searchParams.props.indexOf(prop) === -1) {
+        this.searchParams.props.push(prop);
+      }
+      // 发请求
       this.getProductList();
+      // console.log(att.attrId, att.attrName, attr);
     },
   },
 };
