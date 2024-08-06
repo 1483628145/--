@@ -4,8 +4,13 @@
       <div class="fl key brand">品牌</div>
       <div class="value logos">
         <ul class="logo-list">
-          <!--  -->
-          <li v-for="item in trademarkList" :key="item.tmId">
+          <!-- 品牌列表 -->
+
+          <li
+            v-for="item in trademarkList"
+            :key="item.tmId"
+            @click="changeTraderMark(item)"
+          >
             {{ item.tmName }}
           </li>
         </ul>
@@ -36,6 +41,13 @@ export default {
   // 从vuex中拿到数据
   computed: {
     ...mapGetters("search", ["trademarkList", "attrsList"]),
+  },
+  methods: {
+    changeTraderMark(trademark) {
+      // 将数据传递给父组件
+      this.$emit("changeTardeMark", trademark);
+      // console.log(trademark);
+    },
   },
 };
 </script>

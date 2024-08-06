@@ -21,11 +21,16 @@
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
             </li>
+            <!-- 品牌面包屑 -->
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1]
+              }}<i @click="removeTardeMark">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @changeTardeMark="tarderMarket" />
 
         <!--details-->
         <div class="details clearfix">
@@ -247,6 +252,18 @@ export default {
       } else {
         this.$router.push({ name: "search", params: {} });
       }
+    },
+    // 接收子组件传递过来的品牌数据
+    tarderMarket(trademark) {
+      // console.log(trademark);
+      // 拿到数据 整理数据 将数据整理成： ID：name的形式
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      this.getProductList();
+    },
+    // 删除品牌
+    removeTardeMark() {
+      this.searchParams.trademark = undefined;
+      this.getProductList();
     },
   },
 };
