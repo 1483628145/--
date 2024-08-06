@@ -12,10 +12,10 @@
           </ul>
           <!-- 搜索结果 -->
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName
+              }}<i @click="removeCategoryName">×</i>
+            </li>
           </ul>
         </div>
 
@@ -151,6 +151,20 @@ export default {
       },
     };
   },
+  watch: {
+    // 监听路由变化
+    // 根据路由的变化重复发请求
+    $route(newvlaue, oldvalue) {
+      // 重新整理请求
+      // 将后面俩个对象赋值给前面这个对象
+      this.clearParams();
+
+      Object.assign(this.searchParams, this.$route.query, this.$route.params);
+      // 发请求拿到新的json
+      this.getProductList();
+      // this.clearParams();
+    },
+  },
   beforeMount() {
     // 整理query和params参数 然后在将这些数据传递到getProduceList这个方法里面
     // 显然在这个组件是可以拿到路由的query和params参数的
@@ -177,6 +191,22 @@ export default {
     // 获取搜索结果 -- 面包屑展示数据
     getProductList() {
       this.$store.dispatch("search/getProduceList", this.searchParams);
+    },
+    // 置空请求id
+    clearParams() {
+      this.searchParams.category1Id = "";
+      this.searchParams.category2Id = "";
+      this.searchParams.category3Id = "";
+    },
+    // 删除分类名字
+    removeCategoryName() {
+      // 先置空分类名字
+      this.searchParams.categoryName = "";
+      // 将id也置空
+      this.clearParams();
+      // this.$route.push()
+      // 重新发请求
+      this.getProductList();
     },
   },
   computed: {
