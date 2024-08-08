@@ -49,23 +49,24 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <!-- 搜索排序1: 综合,2: 价格 asc: 升序,desc: 降序 示例: "1:desc" -->
+                <!-- 点击后出现类名 -->
+                <li :class="{ active: isOne }">
+                  <a href="#">综合<span v-if="isOne"></span></a>
+                </li>
+                <li :class="{ active: isTwo }">
+                  <a href="#"
+                    >价格
+                    <span
+                      v-if="isTwo"
+                      class="iconfont icon-jiantoushang"
+                    ></span
+                  ></a>
                 </li>
                 <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                  <a href="#"
+                    >价格<span class="icon-jiantou-xia iconfont"></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -164,7 +165,8 @@ export default {
         category3Id: "",
         categoryName: "",
         keyword: "",
-        order: "1:desc",
+        // 排序asc:升序 desc:降序
+        order: "2:desc",
         pageNo: 1,
         pageSize: 10,
         // 平台售卖参数
@@ -174,7 +176,15 @@ export default {
     };
   },
   computed: {
+    // 拿vuex数据
     ...mapGetters("search", ["goodsList", "attrsList", "trademarkList"]),
+    // 判断排序是否存在背景色
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
   },
   watch: {
     // 监听路由变化
@@ -272,7 +282,10 @@ export default {
     },
     // 删除商品属性
     removeAttr(index) {
-      this.searchParams.props[index] = "";
+      // 按照索引指定删除数组的某一个值
+      if (index > -1 && index < this.searchParams.props.length) {
+        this.searchParams.props.splice(index, 1);
+      }
       this.getProductList();
     },
     // 接收子组件传递过来的品牌数据
